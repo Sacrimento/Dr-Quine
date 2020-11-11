@@ -1,4 +1,4 @@
-NAME = Colleen
+NAME = Grace
 FLAGS = -Wall -Werror -Wextra
 
 OBJ_DIR = ./obj/
@@ -32,19 +32,23 @@ $(OBJ_DIR)%.o : %.s
 	@mkdir -p $(OBJ_DIR)asm
 	@nasm -f elf64 -o $@ $^
 
-diff:
-	./c/$(NAME) > c_out
-	diff c_out $(C_SRC)
+diff: all
+	rm -f $(NAME)_kid.c
+	./c/$(NAME)
+	diff $(NAME)_kid.c $(C_SRC)
 
-	./asm/$(NAME) > asm_out
-	diff asm_out $(ASM_SRC) 
+	rm -f $(NAME)_kid.s
+	./asm/$(NAME)
+	diff $(NAME)_kid.s $(ASM_SRC) 
 
-	python3 $(PY_SRC) > py_out
-	diff py_out $(PY_SRC)
+	rm -f $(NAME)_kid.py
+	python3 $(PY_SRC)
+	diff $(NAME)_kid.py $(PY_SRC)
 
 clean:
 	@rm -rf $(OBJ_DIR)
-	@rm -f c_out py_out asm_out
+	@rm -f $(NAME)_kid.c $(NAME)_kid.s $(NAME)_kid.py
+	@rm -f c/$(NAME)_kid.c asm/$(NAME)_kid.s python/$(NAME)_kid.py
 
 fclean: clean
 	@rm -rf c/$(NAME)
