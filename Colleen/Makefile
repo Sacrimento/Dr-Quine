@@ -32,7 +32,7 @@ $(OBJ_DIR)%.o : %.s
 	@mkdir -p $(OBJ_DIR)asm
 	@nasm -f elf64 -o $@ $^
 
-diff:
+diff: all
 	./c/$(NAME) > c_out
 	diff c_out $(C_SRC)
 
